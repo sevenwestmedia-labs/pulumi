@@ -2,12 +2,12 @@ import * as pulumi from '@pulumi/pulumi'
 
 import { runFargateTask, FargateRunTask } from './utils/runFargateTask'
 
-export interface FargateTaskInputs extends FargateRunTask {
+export interface FargateRunTaskInputs extends FargateRunTask {
     deleteTaskDefinitionArn?: string
 }
 
-export const fargateTaskResourceProvider: pulumi.dynamic.ResourceProvider = {
-    async create(inputs: FargateTaskInputs) {
+export const fargateRunTaskResourceProvider: pulumi.dynamic.ResourceProvider = {
+    async create(inputs: FargateRunTaskInputs) {
         const { exitCode, taskArn } = await runFargateTask(inputs)
 
         if (exitCode !== 0) {
@@ -24,8 +24,8 @@ export const fargateTaskResourceProvider: pulumi.dynamic.ResourceProvider = {
 
     async update(
         _id,
-        _oldInputs: FargateTaskInputs,
-        newInputs: FargateTaskInputs,
+        _oldInputs: FargateRunTaskInputs,
+        newInputs: FargateRunTaskInputs,
     ) {
         const { exitCode, taskArn } = await runFargateTask(newInputs)
         if (exitCode !== 0) {
@@ -37,7 +37,7 @@ export const fargateTaskResourceProvider: pulumi.dynamic.ResourceProvider = {
         }
     },
 
-    async delete(id, inputs: FargateTaskInputs) {
+    async delete(id, inputs: FargateRunTaskInputs) {
         if (inputs.deleteTaskDefinitionArn) {
             const { exitCode, taskArn } = await runFargateTask({
                 ...inputs,

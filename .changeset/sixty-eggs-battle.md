@@ -1,5 +1,5 @@
 ---
-'pulumi-fargate-task': minor
+'pulumi-run-fargate-task': minor
 ---
 
 Initial release

@@ -1,5 +1,5 @@
 {
-    "name": "pulumi-fargate-task",
+    "name": "pulumi-run-fargate-task",
     "version": "0.0.0",
     "description": "Pulumi modules for running once off fargate tasks",
     "main": "dist/index.js",

@@ -1,9 +1,9 @@
 import pulumi from '@pulumi/pulumi'
 import awsx from '@pulumi/awsx'
 
-import { fargateTaskResourceProvider } from './fargate-task-resource-provider'
+import { fargateRunTaskResourceProvider } from './fargate-run-task-resource-provider'
 
-export interface FargateTaskResourceInputs {
+export interface FargateRunTaskResourceInputs {
     awsRegion: pulumi.Input<string>
     clusterArn: pulumi.Input<string>
     taskDefinitionArn: pulumi.Input<string>
@@ -12,7 +12,7 @@ export interface FargateTaskResourceInputs {
     securityGroupIds: Array<pulumi.Input<string>>
 }
 
-export class FargateTask extends pulumi.dynamic.Resource {
+export class FargateRunTask extends pulumi.dynamic.Resource {
     constructor(
         name: string,
         args: {
@@ -20,6 +20,7 @@ export class FargateTask extends pulumi.dynamic.Resource {
             taskDefinition: awsx.ecs.FargateTaskDefinition
             /** The ids of the subnets to run the task in, uses cluser public subnet by default */
             subnetIds?: Array<pulumi.Input<string>>
+            /** Optionally run a task definition before cleanup */
             deleteTask?: awsx.ecs.FargateTaskDefinition
         },
         opts?: pulumi.CustomResourceOptions,
@@ -31,7 +32,7 @@ export class FargateTask extends pulumi.dynamic.Resource {
             args.subnetIds || args.cluster.vpc.getSubnetIds('public')
 
         const awsRegion = awsConfig.require('region')
-        const resourceArgs: FargateTaskResourceInputs = {
+        const resourceArgs: FargateRunTaskResourceInputs = {
             clusterArn: args.cluster.cluster.arn,
             taskDefinitionArn: args.taskDefinition.taskDefinition.arn,
             deleteTaskDefinitionArn: args.deleteTask
@@ -42,8 +43,9 @@ export class FargateTask extends pulumi.dynamic.Resource {
             securityGroupIds,
         }
 
+        // TODO ensure this dynamic resource adds in the dependencies on the task definitions passed in
         super(
-            fargateTaskResourceProvider,
+            fargateRunTaskResourceProvider,
             name,
             { taskArn: undefined, ...resourceArgs },
             opts,
