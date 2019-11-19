@@ -1,0 +1,8 @@
+{
+    "references": [
+        {
+            "path": "./packages/run-fargate-task"
+        }
+    ],
+    "files": []
+}
