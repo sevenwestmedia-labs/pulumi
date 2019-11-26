@@ -17,6 +17,19 @@ export interface CommonArgs {
 
 type ACMCertArgs = ZoneIdArgs & ZoneNameArgs & CommonArgs
 
+// return a list of unique items
+const unique = <T>(items: T[]): T[] => [...new Set<T>(items)]
+
+// returns the smallest result
+const min = <T>(x: T, y: T): T => (x < y ? x : y)
+
+// return the absolute value of a number
+const abs = (x: number): number => (x < 0 ? -x : x)
+
+// produce a range of integers between n and m
+const range = (n: number, m: number = 0): number[] =>
+    [...Array.from(Array(abs(n - m)).keys())].map(x => x + min(n, m))
+
 export class ACMCert extends pulumi.ComponentResource {
     public readonly certificate: aws.acm.Certificate
     public readonly zoneId: string | pulumi.Input<string>
@@ -76,36 +89,36 @@ export class ACMCert extends pulumi.ComponentResource {
             },
         )
 
-        const numberOfUniqueDomains = [
-            ...new Set([args.subject, ...(args.subjectAlternativeNames || [])]),
-        ].length
+        const allDomains = [
+            args.subject,
+            ...(args.subjectAlternativeNames || []),
+        ]
+        const uniqueDomains = unique(allDomains)
 
-        this.certValidationRecords = Array(numberOfUniqueDomains)
-            .fill(null)
-            .map(
-                (_, i) =>
-                    new aws.route53.Record(
-                        `${selectedName}-validation-record-${i}`,
-                        {
-                            name: this.certificate.domainValidationOptions[i]
-                                .resourceRecordName,
-                            records: [
-                                this.certificate.domainValidationOptions[i]
-                                    .resourceRecordValue,
-                            ],
-                            ttl: 60,
-                            type: this.certificate.domainValidationOptions[i]
-                                .resourceRecordType,
-                            zoneId: this.zoneId,
-                        },
-                        {
-                            ...opts,
-                            parent: this,
-                            dependsOn: this.certificate,
-                            deleteBeforeReplace: true, // prevent duplicate records on update
-                        },
-                    ),
-            )
+        this.certValidationRecords = range(uniqueDomains.length).map(
+            (_, i) =>
+                new aws.route53.Record(
+                    `${selectedName}-validation-record-${i}`,
+                    {
+                        name: this.certificate.domainValidationOptions[i]
+                            .resourceRecordName,
+                        records: [
+                            this.certificate.domainValidationOptions[i]
+                                .resourceRecordValue,
+                        ],
+                        ttl: 60,
+                        type: this.certificate.domainValidationOptions[i]
+                            .resourceRecordType,
+                        zoneId: this.zoneId,
+                    },
+                    {
+                        ...opts,
+                        parent: this,
+                        dependsOn: this.certificate,
+                        deleteBeforeReplace: true, // prevent duplicate records on update
+                    },
+                ),
+        )
 
         this.certificateValidation = new aws.acm.CertificateValidation(
             `${selectedName}-cert-validation`,
