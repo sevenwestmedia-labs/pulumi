@@ -21,6 +21,7 @@ export class ACMCert extends pulumi.ComponentResource {
     public readonly certificate: aws.acm.Certificate
     public readonly zoneId: string | pulumi.Input<string>
     public readonly certificateValidation: aws.acm.CertificateValidation
+    public readonly certValidationRecords: aws.route53.Record[]
     public readonly certificateArn: pulumi.Output<string>
 
     constructor(
@@ -31,6 +32,13 @@ export class ACMCert extends pulumi.ComponentResource {
         super('ACMCert', name, {}, opts)
 
         const selectedName = args.name ? args.name : name
+
+        if (args.zoneName && args.zoneId) {
+            throw new Error(
+                'You must set either zoneName or zoneId (but not both)' +
+                    ' when creating a new ACMCert',
+            )
+        }
 
         if (args.zoneId) {
             this.zoneId = args.zoneId
@@ -51,7 +59,7 @@ export class ACMCert extends pulumi.ComponentResource {
                 .apply((zone: aws.route53.GetZoneResult) => zone.id)
         } else {
             throw new Error(
-                'You must set either zoneName or zoneId when creating a new ACMCert',
+                'You must set zoneName or zoneId when creating a new ACMCert',
             )
         }
 
@@ -72,7 +80,7 @@ export class ACMCert extends pulumi.ComponentResource {
             ...new Set([args.subject, ...(args.subjectAlternativeNames || [])]),
         ].length
 
-        const certValidationRecords = Array(numberOfUniqueDomains)
+        this.certValidationRecords = Array(numberOfUniqueDomains)
             .fill(null)
             .map(
                 (_, i) =>
@@ -102,7 +110,9 @@ export class ACMCert extends pulumi.ComponentResource {
             `${selectedName}-cert-validation`,
             {
                 certificateArn: this.certificate.arn,
-                validationRecordFqdns: certValidationRecords.map(r => r.fqdn),
+                validationRecordFqdns: this.certValidationRecords.map(
+                    r => r.fqdn,
+                ),
             },
             {
                 ...opts,
