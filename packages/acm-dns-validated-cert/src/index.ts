@@ -100,7 +100,8 @@ export class ACMCert extends pulumi.ComponentResource {
                         },
                         {
                             ...opts,
-                            parent: this.certificate,
+                            parent: this,
+                            dependsOn: this.certificate,
                             deleteBeforeReplace: true, // prevent duplicate records on update
                         },
                     ),
@@ -116,7 +117,8 @@ export class ACMCert extends pulumi.ComponentResource {
             },
             {
                 ...opts,
-                parent: this.certificate,
+                parent: this,
+                dependsOn: [this.certificate, ...this.certValidationRecords],
             },
         )
 
