@@ -30,6 +30,7 @@
     "homepage": "https://github.com/sevenwestmedia-labs/pulumi#readme",
     "dependencies": {
         "@changesets/cli": "^2.4.0",
+        "@pulumi/aws": "^1.11.0",
         "@pulumi/awsx": "^0.18.13",
         "@pulumi/pulumi": "^1.5.2",
         "@types/enzyme": "^3.10.3",
