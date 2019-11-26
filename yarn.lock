@@ -525,6 +525,18 @@
     read-package-tree "^5.2.1"
     resolve "^1.7.1"
 
+"@pulumi/aws@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@pulumi/aws/-/aws-1.11.0.tgz#e9255f73a0a2ee5c07f9f2d083bc5a12cc6ee5c2"
+  integrity sha512-4EHmkgUBRg+L7UlGCkpCuk+Xkrt35UvfnbJ/UNSzd8qwud+Rxyw7bWSNPmocOkVY7HzW917xAM3gNmbpj5RtvQ==
+  dependencies:
+    "@pulumi/pulumi" "^1.0.0"
+    aws-sdk "^2.0.0"
+    builtin-modules "3.0.0"
+    mime "^2.0.0"
+    read-package-tree "^5.2.1"
+    resolve "^1.7.1"
+
 "@pulumi/awsx@^0.18.13":
   version "0.18.13"
   resolved "https://registry.yarnpkg.com/@pulumi/awsx/-/awsx-0.18.13.tgz#4c5cd1f3c5bf4e5841bf48cf6feb4f4e42cab366"

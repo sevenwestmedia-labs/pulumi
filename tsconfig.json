@@ -2,6 +2,9 @@
     "references": [
         {
             "path": "./packages/run-fargate-task"
+        },
+        {
+            "path": "./packages/acm-dns-validated-cert"
         }
     ],
     "files": []
