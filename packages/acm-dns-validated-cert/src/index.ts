@@ -27,7 +27,7 @@ const min = <T>(x: T, y: T): T => (x < y ? x : y)
 const abs = (x: number): number => (x < 0 ? -x : x)
 
 // produce a range of integers between n and m
-const range = (n: number, m: number = 0): number[] =>
+const range = (n: number, m = 0): number[] =>
     [...Array.from(Array(abs(n - m)).keys())].map(x => x + min(n, m))
 
 export class ACMCert extends pulumi.ComponentResource {
