@@ -8,7 +8,7 @@
     ],
     "scripts": {
         "build": "yarn tsc -b",
-        "test": "yarn jest --passWithNoTests",
+        "test": "PULUMI_TEST_MODE=true PULUMI_NODEJS_STACK=test PULUMI_NODEJS_PROJECT=test yarn jest --passWithNoTests",
         "lint": "eslint --ext .js,.ts .",
         "verify": "yarn build && yarn test && yarn lint",
         "changeset": "changeset",
