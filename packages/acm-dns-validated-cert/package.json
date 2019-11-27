@@ -1,13 +1,13 @@
 {
-    "name": "pulumi-acm-dns-validated-cert",
-    "peerDependencies": {
-        "@pulumi/pulumi": "^1.0.0",
-        "@pulumi/aws": "^1.0.0"
-    },
-    "version": "0.0.0",
-    "description": "Creates an AWS Certificate Manager (ACM) cert, validated using Route53 DNS records",
-    "main": "dist/index.js",
-    "author": "Seven West Media WA",
-    "license": "MIT",
-    "dependencies": {}
+  "name": "pulumi-acm-dns-validated-cert",
+  "peerDependencies": {
+    "@pulumi/pulumi": "^1.0.0",
+    "@pulumi/aws": "^1.0.0"
+  },
+  "version": "0.1.0",
+  "description": "Creates an AWS Certificate Manager (ACM) cert, validated using Route53 DNS records",
+  "main": "dist/index.js",
+  "author": "Seven West Media WA",
+  "license": "MIT",
+  "dependencies": {}
 }
