@@ -8,9 +8,11 @@ export interface FargateRunTask {
     securityGroupIds: string[]
 }
 
+const awsConfig = new Config('aws')
+const awsRegion = awsConfig.require('region')
+
 export async function runFargateTask(inputs: FargateRunTask) {
-    const awsConfig = new Config('aws')
-    const ecs = new awsSdk.ECS({ region: awsConfig.require('region') })
+    const ecs = new awsSdk.ECS({ region: awsRegion })
 
     const result = await ecs
         .runTask({
