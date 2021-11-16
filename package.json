@@ -41,7 +41,7 @@
         "@types/react-dom": "^16.9.4",
         "@typescript-eslint/eslint-plugin": "^2.7.0",
         "@typescript-eslint/parser": "^2.7.0",
-        "aws-sdk": "^2.573.0",
+        "aws-sdk": "^2.814.0",
         "enzyme": "^3.10.0",
         "enzyme-adapter-react-16": "^1.15.1",
         "eslint": "^6.6.0",
