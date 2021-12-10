@@ -1,5 +1,5 @@
-import pulumi from '@pulumi/pulumi'
-import awsx from '@pulumi/awsx'
+import * as pulumi from '@pulumi/pulumi'
+import * as awsx from '@pulumi/awsx'
 
 import { fargateRunTaskResourceProvider } from './fargate-run-task-resource-provider'
 
