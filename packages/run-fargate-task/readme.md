@@ -1,6 +1,6 @@
 # pulumi-run-fargate-task
 
-Executes a fargate task definition then waits for it's completion during previsioning. This is useful to run once of tasks like database migrations inside AWS so you don't need to expose your database publicly.
+Executes a Fargate task definition, then waits for its completion during provisioning. This is useful to run one-off tasks like database migrations inside AWS, so you don't need to expose your database publicly.
 
 ## Example
 
